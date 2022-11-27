@@ -9,47 +9,41 @@ public class EVA3_1_ORDENAMIENTOS {
 
     public static void main(String[] args) {
 
-        float ini, end;
+        long inicioS, inicioI, inicioQ;
 
         // Creamos los arreglos correspondientes:
         int[] arregloDatos = new int[10];
-        int[] copiaArreglo = new int[arregloDatos.length];
-        int[] segundaCopia = new int[arregloDatos.length];
+        int[] arregloS = new int[arregloDatos.length];
+        int[] arregloI = new int[arregloDatos.length];
         int[] arregloQ = new int[arregloDatos.length];
 
         // Llenamos los arreglos:
         fillArray(arregloDatos);
-        fillArray(copiaArreglo);
-        fillArray(segundaCopia);
+        fillArray(arregloS);
+        fillArray(arregloI);
         fillArray(arregloQ);
-
-        // Imprimimos los arreglos:
+        
         System.out.println("Arreglo Original:");
-        printArray(arregloDatos);
-        System.out.println("\nCopia del arreglo original:");
-        copyArray(arregloDatos, copiaArreglo);
-        System.out.println("\nSegundo copia del arreglo original:");
-        copyArray(arregloDatos, segundaCopia);
-        System.out.println();
+        printArray(arregloDatos);        
 
-        // Utilizamos los métodos Selection e Insertion Sort:
+        // Utilizamos los métodos Selection, Insertion Sort y Quick Sort:
         System.out.println("\nMétodo Selection Sort: ");
-        selectionSort(copiaArreglo);
-        // ini = System.nanoTime();
-        // System.out.println("Tiempo de ejecución: " + ini);
+        copyArray(arregloDatos, arregloS);        
+        selectionSort(arregloS);
+        inicioS = System.nanoTime();
+        System.out.println("Tiempo de ejecución: " + inicioS);
+        
         System.out.println("\nMétodo Insertion Sort: ");
-        insertionSort(segundaCopia);
-        // end = System.nanoTime();
-        // System.out.println("Tiempo de ejecución: " + end);
+        copyArray(arregloDatos, arregloI);
+        insertionSort(arregloI);
+        inicioI = System.nanoTime();
+        System.out.println("Tiempo de ejecución: " + inicioI);
 
-        // Utilizamos el método Quick Sort:
         System.out.println("\nMétodo Quick Sort: ");
         copyArray(arregloDatos, arregloQ);
-        ini = System.nanoTime();
         quickSort(arregloQ);
-        end = System.nanoTime();
-        printArray(arregloQ);
-        System.out.println("Quick sort = " + (end - ini));
+        inicioQ = System.nanoTime();
+        System.out.println("Tiempo de ejecución: " + inicioQ);
     }
 
     // Método que llena un arreglo con números enteros aleatorios.
@@ -124,10 +118,11 @@ public class EVA3_1_ORDENAMIENTOS {
     // Método de ordenamiento Quick Sort:
     public static void quickSort(int[] array) {
         quickSortRecur(array, 0, array.length - 1);
+        printArray(array);
     }
 
     // Método de ordenamiento recursivo Quick Sort:
-    private static void quickSortRecur(int[] arreglo, int ini, int fin) {
+    private static void quickSortRecur(int[] array, int ini, int fin) {
         /*
         Pivote -> posicion 
         
@@ -149,35 +144,35 @@ public class EVA3_1_ORDENAMIENTOS {
         while (big < small) { // Los indices se cruzaron
 
             // Mover los indices 
-            while (arreglo[big] <= arreglo[pivote] && big < small) { // Buscar los elementos mas grandes que el pivote
+            while (array[big] <= array[pivote] && big < small) { // Buscar los elementos mas grandes que el pivote
                 big++;
             }
 
-            while (arreglo[small] > arreglo[pivote]) { // Buscar los elementos mas pequeños que el pivote
+            while (array[small] > array[pivote]) { // Buscar los elementos mas pequeños que el pivote
                 small--;
             }
 
             // Verificamos que no se hayan cruzado, si hay intercambiamos
             if (big < small) {
-                temp = arreglo[big];
-                arreglo[big] = arreglo[small];
-                arreglo[small] = temp;
+                temp = array[big];
+                array[big] = array[small];
+                array[small] = temp;
             }
         }
 
         // Intercambiamos (swap) pivote con small
-        temp = arreglo[pivote];
-        arreglo[pivote] = arreglo[small];
-        arreglo[small] = temp;
+        temp = array[pivote];
+        array[pivote] = array[small];
+        array[small] = temp;
         pivote = small;
 
         // Llamada recursiva 
         if (ini < pivote) {
-            quickSortRecur(arreglo, ini, pivote - 1);
+            quickSortRecur(array, ini, pivote - 1);
         }
 
         if (fin > pivote) {
-            quickSortRecur(arreglo, pivote + 1, fin);
-        }
+            quickSortRecur(array, pivote + 1, fin);
+        }                
     }
 }
